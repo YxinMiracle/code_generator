@@ -21,7 +21,7 @@ public class MainGenerator {
         // 静态文件输出路径
         String outputPath = projectPath;
         StaticGenerator.copyFileByHuTool(inputPath, outputPath);
-        System.out.println("test");
+        System.out.println("feat-a branch test");
 
         // 模板路径
         String dynamicInputPath = projectPath + File.separator + "code-generator-basic" + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
