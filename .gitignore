@@ -1,7 +1,7 @@
 ### Custom templete
 .idea
 code_generator.iml
-generator/
+generated/
 
 ### Java template
 # Compiled class file
