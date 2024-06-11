@@ -10,6 +10,7 @@ package com.yxinmiracle.maker.meta.enums;
 
 public enum FileTypeEnum {
     DIR("目录", "dir"),
+    GROUP("文件组", "group"),
     File("文件", "file");
 
     private final String text;

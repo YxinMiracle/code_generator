@@ -12,6 +12,7 @@ import com.yxinmiracle.maker.meta.enums.ModelTypeEnum;
 
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
  * @author  YxinMiracle
@@ -41,6 +42,17 @@ public class MetaValidator {
             return;
         }
         for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
+
+            String groupKey = modelInfo.getGroupKey();
+            if (StrUtil.isNotEmpty(groupKey)) {
+                // 生成中间参数
+                String argsStr = modelInfo.getModels().stream().map(s -> {
+                    return "\""+"--" + s.getFieldName()+"\"";
+                }).collect(Collectors.joining(","));
+                modelInfo.setAllArgsStr(argsStr);
+                continue;
+            }
+
             // 输出路径默认值
             String fieldName = modelInfo.getFieldName();
             if (StrUtil.isBlank(fieldName)) {
@@ -89,6 +101,11 @@ public class MetaValidator {
             return;
         }
         for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
+            String fileType = fileInfo.getType();
+            if (fileType.equals(FileTypeEnum.GROUP.getValue())){
+                continue;
+            }
+
             // inputPath: 必填
             String inputPath = fileInfo.getInputPath();
             if (StrUtil.isBlank(inputPath)) {
@@ -127,8 +144,8 @@ public class MetaValidator {
         // 校验并填充默认值
         String name = StrUtil.blankToDefault(meta.getName(), "my-generator");
         String description = StrUtil.emptyToDefault(meta.getDescription(), "我的模板代码生成器");
-        String author = StrUtil.emptyToDefault(meta.getAuthor(), "yupi");
-        String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.yupi");
+        String author = StrUtil.emptyToDefault(meta.getAuthor(), "yxinmiracle");
+        String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.yxinmiracle");
         String version = StrUtil.emptyToDefault(meta.getVersion(), "1.0");
         String createTime = StrUtil.emptyToDefault(meta.getCreateTime(), DateUtil.now());
         meta.setName(name);

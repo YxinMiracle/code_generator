@@ -1,9 +1,0 @@
-com\yxinmiracle\cli\command\GenerateCommand.class
-com\yxinmiracle\cli\CommandExecutor.class
-com\yxinmiracle\generator\DynamicGenerator.class
-com\yxinmiracle\Main.class
-com\yxinmiracle\generator\MainGenerator.class
-com\yxinmiracle\cli\command\ListCommand.class
-com\yxinmiracle\cli\command\ConfigCommand.class
-com\yxinmiracle\model\DataModel.class
-com\yxinmiracle\generator\StaticGenerator.class
