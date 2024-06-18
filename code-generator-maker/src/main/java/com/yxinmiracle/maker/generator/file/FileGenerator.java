@@ -6,7 +6,7 @@ package com.yxinmiracle.maker.generator.file;
  * @Gitee: https://gitee.com/yxinmiracle
  */
 
-import com.yxinmiracle.maker.model.DataModel;
+
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class FileGenerator {
 
-    public static void doGenerator(DataModel dataModel) throws TemplateException, IOException {
+    public static void doGenerator(Object model) throws TemplateException, IOException {
         String projectPath = System.getProperty("user.dir");
         // 静态文件输入路径
         String inputPath = projectPath + File.separator + "code-generator-demo-projects"+ File.separator +"acm-template";
@@ -27,6 +27,6 @@ public class FileGenerator {
         // 模板路径添加好内容后应该放在哪
         String dynamicOutputPath = projectPath + File.separator + "acm-template/src/com/yxinmiracle/acm/MainTemplate.java";
         // 模板路径填充的内容
-        DynamicFileGenerator.doGenerator(dynamicInputPath, dynamicOutputPath, dataModel);
+        DynamicFileGenerator.doGenerator(dynamicInputPath, dynamicOutputPath, model);
     }
 }
