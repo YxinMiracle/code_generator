@@ -24,6 +24,7 @@ public class TemplateMakerFileConfig {
     @Data
     public static class FileInfoConfig{
         private String path;
+        private String condition; // 控制单个文件是否生成
         private List<FileFilterConfig> filterConfigList;
     }
 

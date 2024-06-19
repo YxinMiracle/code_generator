@@ -10,6 +10,7 @@ import com.yxinmiracle.maker.meta.enums.FileGenerateTypeEnum;
 import com.yxinmiracle.maker.meta.enums.FileTypeEnum;
 import com.yxinmiracle.maker.meta.enums.ModelTypeEnum;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +43,6 @@ public class MetaValidator {
             return;
         }
         for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
-
             String groupKey = modelInfo.getGroupKey();
             if (StrUtil.isNotEmpty(groupKey)) {
                 // 生成中间参数

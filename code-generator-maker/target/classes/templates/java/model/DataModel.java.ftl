@@ -30,7 +30,7 @@ public class DataModel {
 
     // 构建${modelInfo.description}内部类
     @Data
-    public static class MainTemplate {
+    public static class ${modelInfo.type} {
     <#list modelInfo.models as subModelInfo>
         <@generateModel indent="        " modelInfo=subModelInfo />
     </#list>
