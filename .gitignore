@@ -2,6 +2,7 @@
 .idea
 code_generator.iml
 generated/
+application-local.yml
 
 ### Java template
 # Compiled class file

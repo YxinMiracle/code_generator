@@ -1,10 +1,10 @@
 import { PageContainer, ProFormSelect, ProFormText, QueryFilter } from '@ant-design/pro-components';
 import { listGeneratorVoByPageUsingPost } from '@/services/backend/generatorController';
 import React, { useEffect, useState } from 'react';
-import { message, Input, Tabs, Card, List, Typography, Avatar, Image, Flex, Tag } from 'antd';
+import { Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography } from 'antd';
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
-import { val } from '@umijs/utils/compiled/cheerio/lib/api/attributes';
+import {Link} from "umi";
 
 // 默认的分页参数
 const DEFAULT_PAGE_PARAMS: PageRequest = {
@@ -139,29 +139,32 @@ const IndexPage: React.FC = () => {
         }}
         renderItem={(data) => (
           <List.Item>
-            <Card hoverable cover={<Image alt={data.name} src={data.picture} />}>
-              <Card.Meta
-                title={<a>{data.name}</a>}
-                description={
-                  <Typography.Paragraph
-                    ellipsis={{
-                      rows: 2,
-                    }}
-                    style={{ height: 44 }}
-                  >
-                    {data.description}
-                  </Typography.Paragraph>
-                }
-              />
-              {tagListView(data.tags)}
-              <Flex justify="space-between" align="center">
+            <Link to={`/generator/detail/${data.id}`}>
+              <Card hoverable cover={<Image alt={data.name} src={data.picture} />}>
+                <Card.Meta
+                  title={<a>{data.name}</a>}
+                  description={
+                    <Typography.Paragraph
+                      ellipsis={{
+                        rows: 2,
+                      }}
+                      style={{ height: 44 }}
+                    >
+                      {data.description}
+                    </Typography.Paragraph>
+                  }
+                />
+                {tagListView(data.tags)}
+                <Flex justify="space-between" align="center">
                   <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>{moment(data.createTime).fromNow()}</Typography.Paragraph>
                   <div>
                     <Avatar src={data?.user?.userAvatar ?? <UserOutlined/>}/>
                   </div>
-              </Flex>
+                </Flex>
 
-            </Card>
+              </Card>
+
+            </Link>
           </List.Item>
         )}
       />

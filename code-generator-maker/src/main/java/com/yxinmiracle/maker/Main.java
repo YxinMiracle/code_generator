@@ -9,7 +9,9 @@ package com.yxinmiracle.maker;
 //import com.yxinmiracle.maker.cli.CommandExecutor;
 
 
+import com.yxinmiracle.maker.generator.main.GenerateTemplate;
 import com.yxinmiracle.maker.generator.main.MainGenerator;
+import com.yxinmiracle.maker.generator.main.ZipGenerator;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws TemplateException, IOException, InterruptedException {
-        MainGenerator mg = new MainGenerator();
+        GenerateTemplate mg = new ZipGenerator();
         mg.doGenerate();
     }
 }
