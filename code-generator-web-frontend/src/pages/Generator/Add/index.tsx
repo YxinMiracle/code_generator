@@ -19,6 +19,7 @@ import {
 import {history} from '@umijs/max';
 import {useSearchParams} from '@@/exports';
 import {COS_HOST} from '@/constants';
+import ModelConfigForm from "@/pages/Generator/Add/components/ModelConfigForm";
 
 /**
  * 生成器创建页面
@@ -108,6 +109,7 @@ const GeneratorAddPage: React.FC = () => {
 
     if (id) {
       await doUpdate({
+        // @ts-ignore
         id: id,
         ...values,
       });
@@ -153,8 +155,14 @@ const GeneratorAddPage: React.FC = () => {
           <StepsForm.StepForm
             name="modelConfig"
             title="模型配置"
+            onFinish={async (values)=>{
+              console.log(values)
+              return true
+            }}
             // todo 待补充
-          ></StepsForm.StepForm>
+          >
+            <ModelConfigForm formRef={formRef} oldData={oldData}></ModelConfigForm>
+          </StepsForm.StepForm>
           <StepsForm.StepForm name="dist" title="生成器文件">
             <ProFormItem label="产物包" name="distPath">
               <FileUploader biz="generator_dist" description="请上传生成器文件压缩包" />

@@ -51,7 +51,7 @@
         "fieldName": "loop",
         "type": "boolean",
         "description": "是否生成循环",
-        "defaultValue": false,
+        "defaultValue": true,
         "abbr": "l"
       },
       {

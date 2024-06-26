@@ -35,14 +35,13 @@ export const requestConfig: RequestConfig = {
       // 请求地址
       const requestPath: string = response.config.url ?? '';
 
-      // 文件下载的时候就直接返回
-      if (requestPath.includes('download')) {
-        return response;
-      }
-
-
       // 响应
       const { data } = response as unknown as ResponseStructure;
+
+      // 文件下载的时候就直接返回
+      if (data instanceof Blob) {
+        return response;
+      }
 
       if (!data) {
         throw new Error('服务异常');

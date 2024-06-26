@@ -1,5 +1,7 @@
 package com.yxinmiracle.generatorweb.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ZipUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qcloud.cos.model.COSObject;
@@ -14,10 +16,7 @@ import com.yxinmiracle.generatorweb.exception.BusinessException;
 import com.yxinmiracle.generatorweb.exception.ThrowUtils;
 import com.yxinmiracle.generatorweb.manager.CosManager;
 import com.yxinmiracle.generatorweb.meta.Meta;
-import com.yxinmiracle.generatorweb.model.dto.generator.GeneratorAddRequest;
-import com.yxinmiracle.generatorweb.model.dto.generator.GeneratorEditRequest;
-import com.yxinmiracle.generatorweb.model.dto.generator.GeneratorQueryRequest;
-import com.yxinmiracle.generatorweb.model.dto.generator.GeneratorUpdateRequest;
+import com.yxinmiracle.generatorweb.model.dto.generator.*;
 import com.yxinmiracle.generatorweb.model.entity.Generator;
 import com.yxinmiracle.generatorweb.model.entity.User;
 import com.yxinmiracle.generatorweb.model.vo.GeneratorVO;
@@ -31,9 +30,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 帖子接口
@@ -263,16 +268,16 @@ public class GeneratorController {
 
         User loginUser = userService.getLoginUser(request);
         Generator generator = generatorService.getById(id);
-        if (generator == null){
+        if (generator == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         String filePath = generator.getDistPath();
-        if (StringUtils.isBlank(filePath)){
+        if (StringUtils.isBlank(filePath)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "产物包不存在");
         }
 
         // 日志记录
-        log.info("用户 {}, 下载了 {}",loginUser, filePath);
+        log.info("用户 {}, 下载了 {}", loginUser, filePath);
 
         InputStream cosObjectInput = null;
         try {
@@ -294,6 +299,112 @@ public class GeneratorController {
             }
         }
 
+    }
+
+    /**
+     * 使用代码生成器
+     *
+     * @param generatorUseRequests
+     * @throws IOException
+     */
+    @PostMapping("/use")
+    public void useGenerator(@RequestBody GeneratorUseRequests generatorUseRequests, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 获取请求参数
+        Long id = generatorUseRequests.getId();
+        Map<String, Object> dataModel = generatorUseRequests.getDataModel();
+
+        // 需要让用户进行登录，登录了才可以使用
+        User loginUser = userService.getLoginUser(request);
+        log.info("userId:{}, 使用的生成器的Id:{}", loginUser.getId(), id);
+        Generator generator = generatorService.getById(id);
+        if (generator == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+
+        // 从对象存储下载生成器的压缩包
+        String distPath = generator.getDistPath();
+        if (StringUtils.isBlank(distPath)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "生成器压缩包不存在");
+        }
+
+
+        // 定义一个工作空间（独立的工作空间）
+        String projectPath = System.getProperty("user.dir");
+        String tempDirPath = String.format("%s/.temp/use/%s", projectPath, id);
+
+        String zipFilePath = tempDirPath + "/dist.zip";
+
+        if (!FileUtil.exist(zipFilePath)) {
+            FileUtil.touch(zipFilePath);
+        }
+
+        try {
+            cosManager.download(distPath, zipFilePath);
+        } catch (InterruptedException e) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器下载失败");
+        }
+
+        // 压缩包解压，得到脚本文件
+        File unzipDistDir = ZipUtil.unzip(zipFilePath);
+
+        // 将用户输入的参数写到Json文件中
+        String dataModelFilePath = tempDirPath + "/dataModel.json";
+        String jsonStr = JSONUtil.toJsonStr(dataModel);
+        FileUtil.writeUtf8String(jsonStr, dataModelFilePath);
+
+        // 执行脚本，得到生成器的文件
+        File scriptFile = FileUtil.loopFiles(unzipDistDir, 2, null).stream().filter(file -> {
+            if (file.isFile()) {
+                return "generator.bat".equals(file.getName());
+            }
+            return false;
+        }).findFirst().orElseThrow(RuntimeException::new);
+        // 添加可执行权限
+        try {
+            Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
+            Files.setPosixFilePermissions(scriptFile.toPath(), permissions);
+        } catch (Exception e) {
+
+        }
+
+        File scriptDir = scriptFile.getParentFile();
+        String scriptAbsolutePath = scriptFile.getAbsolutePath().replace("\\","/");
+        String[] commands = new String[]{scriptAbsolutePath, "json-generate", "--file=" + dataModelFilePath};
+
+        ProcessBuilder processBuilder = new ProcessBuilder(commands);
+        processBuilder.directory(scriptDir);
+
+        try {
+            Process process = processBuilder.start();
+
+            InputStream inputStream = process.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            int exitCode = process.waitFor();
+            System.out.println("命令执行结束，推出码为：" + exitCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "执行生成器脚本错误");
+        }
+
+        // 压缩得到的生成结果，返回给前端
+        String generatedPath = scriptDir.getAbsolutePath() + "/generated";
+        String resultPath = tempDirPath + "/result.zip";
+        File resultFile = ZipUtil.zip(generatedPath, resultPath);
+
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + resultFile.getName());
+
+        Files.copy(resultFile.toPath(), response.getOutputStream());
+
+        // 删除工作空间
+        CompletableFuture.runAsync(()->{
+            FileUtil.del(tempDirPath);
+        });
     }
 
 }
