@@ -1,4 +1,6 @@
 {
+    "name": "yxinmiracle-springboot-init-generator",
+    "description": "springboot 代码生成器项目",
     "fileConfig": {
         "sourceRootPath": "F:/code/code_generator/code-generator-maker/.temp/1/springboot-init-master",
         "files": [
@@ -59,6 +61,12 @@
                     {
                         "inputPath": "src/main/java/com/yxinmiracle/springbootinit/service/PostThumbService.java.ftl",
                         "outputPath": "src/main/java/com/yxinmiracle/springbootinit/service/PostThumbService.java",
+                        "type": "file",
+                        "generateType": "dynamice"
+                    },
+                    {
+                        "inputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/post/PostEsDTO.java.ftl",
+                        "outputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/post/PostEsDTO.java",
                         "type": "file",
                         "generateType": "dynamice"
                     },
@@ -185,13 +193,6 @@
                 ]
             },
             {
-                "inputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/post/PostEsDTO.java.ftl",
-                "outputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/post/PostEsDTO.java",
-                "condition": "needPost && needEs",
-                "type": "file",
-                "generateType": "dynamice"
-            },
-            {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/common/ErrorCode.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/common/ErrorCode.java",
                 "type": "file",
@@ -210,20 +211,8 @@
                 "generateType": "static"
             },
             {
-                "inputPath": "src/test/java/com/yupi/springbootinit/mapper/PostMapperTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/mapper/PostMapperTest.java",
-                "type": "file",
-                "generateType": "dynamice"
-            },
-            {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/wxmp/handler/EventHandler.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/wxmp/handler/EventHandler.java",
-                "type": "file",
-                "generateType": "dynamice"
-            },
-            {
-                "inputPath": "src/test/java/com/yupi/springbootinit/MainApplicationTests.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/MainApplicationTests.java",
                 "type": "file",
                 "generateType": "dynamice"
             },
@@ -324,12 +313,6 @@
                 "generateType": "static"
             },
             {
-                "inputPath": "src/test/java/com/yupi/springbootinit/service/PostThumbServiceTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/service/PostThumbServiceTest.java",
-                "type": "file",
-                "generateType": "dynamice"
-            },
-            {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/user/UserUpdateMyRequest.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/user/UserUpdateMyRequest.java",
                 "type": "file",
@@ -348,6 +331,12 @@
                 "generateType": "static"
             },
             {
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/mapper/PostMapperTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/mapper/PostMapperTest.java",
+                "type": "file",
+                "generateType": "dynamice"
+            },
+            {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/user/UserRegisterRequest.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/model/dto/user/UserRegisterRequest.java",
                 "type": "file",
@@ -364,6 +353,12 @@
                 "outputPath": "sql/post_es_mapping.json",
                 "type": "file",
                 "generateType": "static"
+            },
+            {
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/service/PostThumbServiceTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/service/PostThumbServiceTest.java",
+                "type": "file",
+                "generateType": "dynamice"
             },
             {
                 "inputPath": "mvnw.cmd",
@@ -414,8 +409,8 @@
                 "generateType": "dynamice"
             },
             {
-                "inputPath": "src/test/java/com/yupi/springbootinit/manager/CosManagerTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/manager/CosManagerTest.java",
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/service/UserServiceTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/service/UserServiceTest.java",
                 "type": "file",
                 "generateType": "dynamice"
             },
@@ -444,8 +439,8 @@
                 "generateType": "dynamice"
             },
             {
-                "inputPath": "src/test/java/com/yupi/springbootinit/service/UserServiceTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/service/UserServiceTest.java",
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/mapper/PostFavourMapperTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/mapper/PostFavourMapperTest.java",
                 "type": "file",
                 "generateType": "dynamice"
             },
@@ -454,6 +449,12 @@
                 "outputPath": ".gitignore",
                 "type": "file",
                 "generateType": "static"
+            },
+            {
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/MainApplicationTests.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/MainApplicationTests.java",
+                "type": "file",
+                "generateType": "dynamice"
             },
             {
                 "inputPath": "src/main/resources/test_excel.xlsx",
@@ -564,12 +565,6 @@
                 "generateType": "dynamice"
             },
             {
-                "inputPath": "src/test/java/com/yupi/springbootinit/service/PostFavourServiceTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/service/PostFavourServiceTest.java",
-                "type": "file",
-                "generateType": "dynamice"
-            },
-            {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/exception/BusinessException.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/exception/BusinessException.java",
                 "type": "file",
@@ -600,12 +595,6 @@
                 "generateType": "dynamice"
             },
             {
-                "inputPath": "src/test/java/com/yupi/springbootinit/mapper/PostFavourMapperTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/mapper/PostFavourMapperTest.java",
-                "type": "file",
-                "generateType": "dynamice"
-            },
-            {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/controller/WxMpController.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/controller/WxMpController.java",
                 "type": "file",
@@ -620,6 +609,12 @@
             {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/service/impl/UserServiceImpl.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/service/impl/UserServiceImpl.java",
+                "type": "file",
+                "generateType": "dynamice"
+            },
+            {
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/service/PostFavourServiceTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/service/PostFavourServiceTest.java",
                 "type": "file",
                 "generateType": "dynamice"
             },
@@ -648,6 +643,12 @@
                 "generateType": "dynamice"
             },
             {
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/utils/EasyExcelTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/utils/EasyExcelTest.java",
+                "type": "file",
+                "generateType": "dynamice"
+            },
+            {
                 "inputPath": ".idea/material_theme_project_new.xml",
                 "outputPath": ".idea/material_theme_project_new.xml",
                 "type": "file",
@@ -658,12 +659,6 @@
                 "outputPath": "Dockerfile",
                 "type": "file",
                 "generateType": "static"
-            },
-            {
-                "inputPath": "src/test/java/com/yupi/springbootinit/utils/EasyExcelTest.java.ftl",
-                "outputPath": "src/test/java/com/yupi/springbootinit/utils/EasyExcelTest.java",
-                "type": "file",
-                "generateType": "dynamice"
             },
             {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/common/BaseResponse.java.ftl",
@@ -680,6 +675,13 @@
             {
                 "inputPath": "src/main/java/com/yxinmiracle/springbootinit/config/CorsConfig.java.ftl",
                 "outputPath": "src/main/java/com/yxinmiracle/springbootinit/config/CorsConfig.java",
+                "type": "file",
+                "generateType": "dynamice",
+                "condition": "needCors"
+            },
+            {
+                "inputPath": "src/test/java/com/yxinmiracle/springbootinit/manager/CosManagerTest.java.ftl",
+                "outputPath": "src/test/java/com/yxinmiracle/springbootinit/manager/CosManagerTest.java",
                 "type": "file",
                 "generateType": "dynamice"
             },

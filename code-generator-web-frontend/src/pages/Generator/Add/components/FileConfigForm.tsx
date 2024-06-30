@@ -1,6 +1,6 @@
 import React from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormListFieldData, Input, Space, Typography } from 'antd';
+import { Alert, Button, Card, Form, FormListFieldData, Input, Select, Space } from 'antd';
 
 interface Props {
   formRef: any;
@@ -16,19 +16,44 @@ export default (props: Props) => {
     remove?: (index: number | number[]) => void,
   ) => (
     <Space>
-      <Form.Item label="字段名称" name={[field.name, 'fieldName']}>
+      <Form.Item label="输入路径" name={[field.name, 'inputPath']}>
         <Input />
       </Form.Item>
-      <Form.Item label="描述" name={[field.name, 'description']}>
+      <Form.Item label="输出路径" name={[field.name, 'outputPath']}>
         <Input />
       </Form.Item>
+
       <Form.Item label="类型" name={[field.name, 'type']}>
-        <Input />
+        <Select
+          style={{ minWidth: 80 }}
+          options={[
+            {
+              value: 'file',
+              label: '文件',
+            },
+            {
+              value: 'dir',
+              label: '目录',
+            },
+          ]}
+        />
       </Form.Item>
-      <Form.Item label="默认值" name={[field.name, 'defaultValue']}>
-        <Input />
+      <Form.Item label="生成类型" name={[field.name, 'generateType']}>
+        <Select
+          style={{ minWidth: 80 }}
+          options={[
+            {
+              value: 'static',
+              label: '静态',
+            },
+            {
+              value: 'dynamic',
+              label: '动态',
+            },
+          ]}
+        />
       </Form.Item>
-      <Form.Item label="缩写" name={[field.name, 'abbr']}>
+      <Form.Item label="条件" name={[field.name, 'condition']}>
         <Input />
       </Form.Item>
       {remove && (
@@ -39,17 +64,17 @@ export default (props: Props) => {
     </Space>
   );
 
-
-
   return (
     <>
-      <Form.List name={['modelConfig', 'models']}>
-        {(fields, { add, remove }) => (
-          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+      <Alert message="如果不需要使用在线制作功能，可以进行关闭" type="warning" closable/>
+      <div style={{marginBottom: 16}}></div>
+      <Form.List name={['fileConfig', 'files']}>
+        {(fields, {add, remove}) => (
+          <div style={{display: 'flex', rowGap: 16, flexDirection: 'column'}}>
             {fields.map((field) => {
-              const modelConfig =
-                formRef?.current?.getFieldValue()?.modelConfig ?? oldData?.modelConfig;
-              const groupKey = modelConfig?.models?.[field.name]?.groupKey;
+              const fileConfig =
+                formRef?.current?.getFieldValue()?.fileConfig ?? oldData?.fileConfig;
+              const groupKey = fileConfig?.files?.[field.name]?.groupKey;
 
               return (
                 <Card
@@ -67,16 +92,13 @@ export default (props: Props) => {
                   {groupKey ? (
                     <Space>
                       <Form.Item label="分组Key" name={[field.name, 'groupKey']}>
-                        <Input />
+                        <Input/>
                       </Form.Item>
                       <Form.Item label="组名" name={[field.name, 'groupName']}>
-                        <Input />
-                      </Form.Item>
-                      <Form.Item label="类型" name={[field.name, 'type']}>
-                        <Input />
+                        <Input/>
                       </Form.Item>
                       <Form.Item label="条件" name={[field.name, 'condition']}>
-                        <Input />
+                        <Input/>
                       </Form.Item>
                     </Space>
                   ) : (
@@ -86,9 +108,9 @@ export default (props: Props) => {
                   {/* Nest Form.List */}
                   {groupKey && (
                     <Form.Item label="组内字段">
-                      <Form.List name={[field.name, 'models']}>
+                      <Form.List name={[field.name, 'files']}>
                         {(subFields, subOpt) => (
-                          <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+                          <div style={{display: 'flex', flexDirection: 'column', rowGap: 16}}>
                             {subFields.map((subField) => {
                               return singleFieldFormView(subField, subOpt.remove);
                             })}
@@ -108,7 +130,7 @@ export default (props: Props) => {
             </Button>
             <Button
               type="dashed"
-              onClick={() => add({ groupName: '分组', groupKey: 'groupKey' })}
+              onClick={() => add({groupName: '分组', groupKey: 'groupKey', type: 'group'})}
               block
             >
               添加分组
@@ -116,7 +138,7 @@ export default (props: Props) => {
           </div>
         )}
       </Form.List>
-      <div style={{ marginBottom: 16 }}></div>
+      <div style={{marginBottom: 16}}></div>
     </>
   );
 };

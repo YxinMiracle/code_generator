@@ -23,7 +23,7 @@ public abstract class GenerateTemplate {
     }
 
     /**
-     * 生成
+     * 遵循开闭原则
      *
      * @throws TemplateException
      * @throws IOException
@@ -51,6 +51,7 @@ public abstract class GenerateTemplate {
     }
 
 
+
     /**
      * 复制原始文件
      *
@@ -74,8 +75,7 @@ public abstract class GenerateTemplate {
      */
     protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         // 读取 resources 目录
-        String projectPath = System.getProperty("user.dir");
-        String inputResourcePath = projectPath + File.separator + "src/main/resources";
+        String inputResourcePath = "";
 
         // Java 包基础路径
         String outputBasePackage = meta.getBasePackage();

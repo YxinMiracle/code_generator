@@ -7,6 +7,7 @@ package com.yxinmiracle.maker.generator.file;
  */
 
 import cn.hutool.core.io.FileUtil;
+import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -26,7 +27,36 @@ public class DynamicFileGenerator {
      * @throws IOException 抛出异常
      * @throws TemplateException 抛出异常
      */
-    public static void doGenerator(String inputPath, String outputPath, Object model) throws IOException, TemplateException {
+    public static void doGenerator(String relativeInputPath, String outputPath, Object model) throws IOException, TemplateException {
+        // new 出 Configuration 对象，参数为 FreeMarker 版本号
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_32);
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setNumberFormat("0.######");
+
+        int lastSplitIndex = relativeInputPath.lastIndexOf("/");
+        String basePackagePath = relativeInputPath.substring(0, lastSplitIndex);
+        String templateName = relativeInputPath.substring(lastSplitIndex+1);
+
+        // 通过类加载器去读取模板
+        ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(DynamicFileGenerator.class, basePackagePath);
+        configuration.setTemplateLoader(classTemplateLoader);
+
+        // 设置文件名
+        Template template = configuration.getTemplate(templateName);
+
+        // 如果文件不存在，就要创建对应的目录
+        if (!FileUtil.exist(outputPath)){
+            FileUtil.touch(outputPath);
+        }
+
+        Writer out = new FileWriter(outputPath);
+        template.process(model, out);
+        // 生成文件后别忘了关闭哦
+        out.close();
+    }
+
+    @Deprecated
+    public static void doGeneratorByPath(String inputPath, String outputPath, Object model) throws IOException, TemplateException {
         // new 出 Configuration 对象，参数为 FreeMarker 版本号
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_32);
         configuration.setDefaultEncoding("utf-8");
@@ -49,5 +79,6 @@ public class DynamicFileGenerator {
         template.process(model, out);
         // 生成文件后别忘了关闭哦
         out.close();
+
     }
  }

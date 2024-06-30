@@ -3,6 +3,9 @@
 code_generator.iml
 generated/
 application-local.yml
+application-prod.yml
+.temp/
+generator_db.sql
 
 ### Java template
 # Compiled class file

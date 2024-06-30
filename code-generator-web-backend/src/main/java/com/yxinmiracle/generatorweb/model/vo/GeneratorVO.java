@@ -1,7 +1,7 @@
 package com.yxinmiracle.generatorweb.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.yxinmiracle.generatorweb.meta.Meta;
+import com.yxinmiracle.maker.meta.Meta;
 import com.yxinmiracle.generatorweb.model.entity.Generator;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

@@ -3,7 +3,7 @@
   "fileConfig": {
     "files": [
       {
-        "path": "src/main/java/com/yupi/springbootinit/model/dto/PostEsDto",
+        "path": "src/main/java/com/yxinmiracle/springbootinit/model/dto/PostEsDto",
         "condition": "needPost && needEs"
       }
     ]

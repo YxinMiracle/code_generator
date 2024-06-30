@@ -10,6 +10,7 @@ import java.io.*;
 
 public class JarGenerate {
     public static void doGenerate(String projectDir) throws InterruptedException, IOException {
+        // todo 修改
         String winMavenCommand = "mvn.cmd clean package -DskipTests=true";
         String otherMavenCommand = "mvn clean package -DskipTests=true";
         String mavenCommand = winMavenCommand;

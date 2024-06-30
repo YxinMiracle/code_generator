@@ -1,7 +1,7 @@
 package com.yxinmiracle.generatorweb.model.dto.generator;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.yxinmiracle.generatorweb.meta.Meta;
+import com.yxinmiracle.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;
